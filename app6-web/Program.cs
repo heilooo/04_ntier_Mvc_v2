@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using ntier.DataAccess.Repository;
-using ntier.DataAccess.Repository.IRepository;
+using ntier.DataAccess.Services;
+using ntier.DataAccess.Services.Interface;
+using ntier.Models;
 using ntire.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Configuration.GetConnectionString("DefultConnection")
 ));
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ICoverTypeService, CoverTypeService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+
+
+
 //builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 //builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 
@@ -34,6 +40,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

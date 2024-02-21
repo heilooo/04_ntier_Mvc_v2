@@ -1,21 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ntier.DataAccess.Repository.IRepository;
+using ntier.DataAccess.Services;
+using ntier.DataAccess.Services.Interface;
 using ntier.Models;
 using ntire.DataAccess;
 
-namespace app6_web.Controllers
+namespace app6_web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CoverTypeController : Controller
     {
-        private readonly IUnitOfWork _db;
-        public CoverTypeController(IUnitOfWork db)
+        private readonly ICoverTypeService _CoverTypeService;
+        public CoverTypeController(ICoverTypeService CoverTypeService)
         {
-            _db = db;
+            _CoverTypeService = CoverTypeService;
         }
         //index
         public IActionResult Index()
         {
-            IEnumerable<CoverType> CoverTypeList = _db.CoverType.GetAll();
+            IEnumerable<CoverType> CoverTypeList = _CoverTypeService.GetAll();
             return View(CoverTypeList);
         }
         //Get
@@ -29,8 +31,8 @@ namespace app6_web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.CoverType.Add(obj);
-                _db.Save();
+                _CoverTypeService.Add(obj);
+                _CoverTypeService.Save();
                 TempData["success"] = "تایپ با موفقیت ایجاد شد";
                 return RedirectToAction("Index");
             }
@@ -46,7 +48,7 @@ namespace app6_web.Controllers
                 return NotFound();
             }
             //var CoverTypeFromDb = _db.Categories.Find(id);
-            var CoverTypeFirst = _db.CoverType.GetFirstOrDefault(c => c.Id == id);
+            var CoverTypeFirst = _CoverTypeService.GetFirstOrDefault(c => c.Id == id);
             //var CoverTypeSingel = _db.Categories.SingleOrDefault(c => c.Id == id);
             if (CoverTypeFirst == null)
             {
@@ -60,8 +62,8 @@ namespace app6_web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.CoverType.Update(obj);
-                _db.Save();
+                _CoverTypeService.Update(obj);
+                _CoverTypeService.Save();
                 TempData["success"] = "تایپ با موفقیت  ویرایش شد";
                 return RedirectToAction("Index");
             }
@@ -76,7 +78,7 @@ namespace app6_web.Controllers
                 return NotFound();
             }
             //var coverTypeFromDb = _db.Categories.Find(id);
-            var coverTypeFirst = _db.CoverType.GetFirstOrDefault(c => c.Id == id);
+            var coverTypeFirst = _CoverTypeService.GetFirstOrDefault(c => c.Id == id);
             //var coverTypeSingel = _db.Categories.SingleOrDefault(c => c.Id == id);
             if (coverTypeFirst == null)
             {
@@ -89,17 +91,12 @@ namespace app6_web.Controllers
         public IActionResult DeletePost(int? id)
         {
 
-            var obj = _db.CoverType.GetFirstOrDefault(c => c.Id == id); ;
+            var obj = _CoverTypeService.GetFirstOrDefault(c => c.Id == id); ;
 
-            _db.CoverType.Remove(obj);
-            _db.Save();
+            _CoverTypeService.Remove(obj);
+            _CoverTypeService.Save();
             TempData["success"] = "تایپ با موفقیت  حذف شد";
             return RedirectToAction("Index");
-
-
         }
-
-
-
     }
 }

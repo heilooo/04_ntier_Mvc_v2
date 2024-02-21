@@ -1,21 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ntier.DataAccess.Repository.IRepository;
+using ntier.DataAccess.Services;
+using ntier.DataAccess.Services.Interface;
 using ntier.Models;
 using ntire.DataAccess;
 
-namespace app6_web.Controllers
+namespace app6_web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
-        private readonly IUnitOfWork _db;
-        public CategoryController(IUnitOfWork db)
+        private readonly ICategoryService _CategoryService;
+        public CategoryController(ICategoryService CategoryService)
         {
-            _db = db;
+            _CategoryService = CategoryService;
         }
         //index
         public IActionResult Index()
         {
-            IEnumerable<Category> CtaegoryList = _db.Category.GetAll();
+            IEnumerable<Category> CtaegoryList = _CategoryService.GetAll();
             return View(CtaegoryList);
         }
         //Get
@@ -34,8 +36,8 @@ namespace app6_web.Controllers
             }
             if (ModelState.IsValid)
             {
-                _db.Category.Add(obj);
-                _db.Save();
+                _CategoryService.Add(obj);
+                _CategoryService.Save();
                 TempData["success"] = "دسته با موفقیت ایجاد شد";
                 return RedirectToAction("Index");
             }
@@ -51,7 +53,7 @@ namespace app6_web.Controllers
                 return NotFound();
             }
             //var categoryFromDb = _db.Categories.Find(id);
-            var categoryFirst = _db.Category.GetFirstOrDefault(c => c.Id == id);
+            var categoryFirst = _CategoryService.GetFirstOrDefault(c => c.Id == id);
             //var categorySingel = _db.Categories.SingleOrDefault(c => c.Id == id);
             if (categoryFirst == null)
             {
@@ -70,8 +72,8 @@ namespace app6_web.Controllers
             }
             if (ModelState.IsValid)
             {
-                _db.Category.Update(obj);
-                _db.Save();
+                _CategoryService.Update(obj);
+                _CategoryService.Save();
                 TempData["success"] = "دسته با موفقیت  ویرایش شد";
                 return RedirectToAction("Index");
             }
@@ -86,7 +88,7 @@ namespace app6_web.Controllers
                 return NotFound();
             }
             //var categoryFromDb = _db.Categories.Find(id);
-            var categoryFirst = _db.Category.GetFirstOrDefault(c => c.Id == id);
+            var categoryFirst = _CategoryService.GetFirstOrDefault(c => c.Id == id);
             //var categorySingel = _db.Categories.SingleOrDefault(c => c.Id == id);
             if (categoryFirst == null)
             {
@@ -99,10 +101,10 @@ namespace app6_web.Controllers
         public IActionResult DeletePost(int? id)
         {
 
-            var obj = _db.Category.GetFirstOrDefault(c => c.Id == id); ;
+            var obj = _CategoryService.GetFirstOrDefault(c => c.Id == id); ;
 
-            _db.Category.Remove(obj);
-            _db.Save();
+            _CategoryService.Remove(obj);
+            _CategoryService.Save();
             TempData["success"] = "دسته با موفقیت  حذف شد";
             return RedirectToAction("Index");
 

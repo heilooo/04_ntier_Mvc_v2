@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using ntier.Models;
 using System.Diagnostics;
 
-namespace app6_web.Controllers
+namespace app6_web.Areas.Admin.Controllers
 {
     public class HomeController : Controller
     {
