@@ -15,6 +15,7 @@ namespace ntier.DataAccess.Services.Interface
         public Category GetFirstOrDefault(Expression<Func<Category,bool>>filter);
         void Remove(Category entity);
         void RemoveRange(IEnumerable<Category> entities);
+        void Save();
         public void Update(Category category);
     }
 }

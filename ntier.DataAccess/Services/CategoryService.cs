@@ -52,6 +52,7 @@ namespace ntier.DataAccess.Services
         public void Update(Category category) 
         {
             _db.Categories.Update(category);
+            _db.SaveChanges();
         }
     }
 }

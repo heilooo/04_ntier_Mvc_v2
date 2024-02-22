@@ -52,6 +52,7 @@ namespace ntier.DataAccess.Services
         public void Update(CoverType CoverType) 
         {
             _db.CoverTypes.Update(CoverType);
+            _db.SaveChanges();
         }
 
 

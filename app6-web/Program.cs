@@ -14,6 +14,7 @@ builder.Configuration.GetConnectionString("DefultConnection")
 
 builder.Services.AddScoped<ICoverTypeService, CoverTypeService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 
 
